@@ -1,0 +1,21 @@
+model_params:
+  name: 'SimpleVAE'
+  n_tokens: 21
+  latent_dim: 20
+  enc_units: 50
+
+exp_params:
+  batch_size: 64
+  lr: 0.005
+  weight_decay: 0.0
+  scheduler_gamma: 0.95
+
+trainer_params:
+  gpus: 1
+  max_nb_epochs: 50
+  max_epochs: 30
+
+logging_params:
+  save_dir: "logs/"
+  name: "SimpleVAE"
+  manual_seed: 105716977
