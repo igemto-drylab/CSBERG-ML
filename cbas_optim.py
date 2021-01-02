@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 import scipy.stats
-import util
+import cbas_util as util
 import keras.backend as K
 import tensorflow_probability as tfp
 from sklearn.gaussian_process import GaussianProcessRegressor
