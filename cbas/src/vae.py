@@ -165,7 +165,9 @@ class BaseVAE(object):
         z, eps, kl_batch = self._build_latent_vars(mu_z, log_var_z, epsilon_std=epsilon_std, kl_scale=kl_scale)
         dec_in = self._get_decoder_input(z, enc_in)
         x_pred = self.decoder_(dec_in)
-        self.vae_ = Model(inputs=enc_in, outputs=[x_pred, kl_batch], name='vae_base')
+        print("enc_in", enc_in.shape)
+        print("eps", eps.shape)
+        self.vae_ = Model(inputs=[enc_in, eps], outputs=[x_pred, kl_batch], name='vae_base')
 
     def plot_model(self, *args, **kwargs):
         keras.utils.plot_model(self.vae_, *args, **kwargs)
