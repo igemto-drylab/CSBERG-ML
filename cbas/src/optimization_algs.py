@@ -3,13 +3,13 @@ import tensorflow as tf
 import scipy.stats
 import util
 import keras.backend as K
-import tensorflow_probability as tfp
+# import tensorflow_probability as tfp
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C
 from scipy.stats import norm
 from scipy.optimize import minimize
 
-tfd = tfp.distributions
+# tfd = tfp.distributions
 class color:
    PURPLE = '\033[95m'
    CYAN = '\033[96m'
@@ -273,7 +273,7 @@ def killoran_opt(X_train, vae, oracles, ground_truth,
     zt = K.tf.Variable(np.random.normal(size=[1, LD]), dtype='float32')
     pred_input = K.tf.Variable(np.zeros((1, L, X_train.shape[2])), dtype='float32')
     gen_output = G(zt)
-    prior = tfd.Normal(0, 1)
+#     prior = tfd.Normal(0, 1)
     p_z = prior.log_prob(zt)
     predictions = K.tf.reduce_mean([f[i](pred_input)[0, 0] for i in range(len(f))])
     update_pred_input = K.tf.assign(pred_input, gen_output)
