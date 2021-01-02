@@ -1,7 +1,7 @@
 import numpy as np
 from keras import backend as K
 
-from seqtools import SequenceTools
+# from seqtools import SequenceTools
 
 """
 This module contains a number of custom Keras loss functions
