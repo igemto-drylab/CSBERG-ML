@@ -2,7 +2,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 import numpy as np
-from util import AA, AA_IDX, BLOSUM
+from cbas_util import AA, AA_IDX, BLOSUM
 
 
 """
