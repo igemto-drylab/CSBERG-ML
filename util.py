@@ -97,3 +97,28 @@ def read_fasta(fname):
     X = torch.tensor(get_X(seqs))
 
     return X
+
+
+def save_fasta(X_p, fname, sampling='max'):
+    seqs = ""
+    if torch.is_tensor(X_p):
+        X_p = X_p.cpu().numpy()
+    b, l, d = X_p.shape
+
+    # nchar = 1
+    for i in range(b):
+        seqs += ">{}\n".format(i)
+        for j in range(l):
+            p = X_p[i, j]
+            if sampling == 'max':   # only take the one with max probability
+                k = np.argmax(p)
+            elif sampling == 'multinomial':        # sample from multinomial
+                k = np.random.choice(range(len(p)), p=p)
+            aa = IDX_AA[k]
+            if aa != '-':
+                seqs += IDX_AA[k]
+            # if nchar % 60 == 0:    # optional
+            #     seqs += "\n"
+        seqs += "\n"
+    with open(fname, "w") as f:
+        f.write(seqs)
