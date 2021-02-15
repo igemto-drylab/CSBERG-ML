@@ -14,7 +14,7 @@ import utils
 
 def enc_aa_index(int_seqs):
     """ encodes data in aa index properties format """
-    aa_features = np.load("data/aaindex/pca-19.npy")
+    aa_features = np.load("pca-19.npy")
     # add all zero features for stop codon
     aa_features = np.insert(aa_features, 0, np.zeros(aa_features.shape[1]), axis=0)
     aa_features_enc = aa_features[int_seqs]
