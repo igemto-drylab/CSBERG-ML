@@ -2,6 +2,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 import numpy as np
+from tqdm import tqdm
 from util import AA, AA_IDX, BLOSUM
 
 
@@ -30,9 +31,8 @@ class SequenceGP(object):
     def _fill_K(self, print_every=100):
         self.K_ = np.zeros((self.N_, self.N_))
         total = self.N_ * (self.N_+1) / 2
-        m = 0
         homo_noise = self.params_[0]
-        for i in range(self.N_):
+        for i in tqdm(range(self.N_)):
             for j in range(i, self.N_):
                 kij = self._kernel(self.X_[i], self.X_[j])
                 if i == j:
@@ -40,9 +40,6 @@ class SequenceGP(object):
                 self.K_[i, j] = kij
                 self.K_[j, i] = kij
                 
-                m += 1
-                if m % print_every == 0:
-                    print("Number of K elements filled: %i / %i" % (m, total))
         
     def _invert_K(self):
         print("Inverting K...")
