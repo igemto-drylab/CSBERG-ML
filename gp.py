@@ -12,7 +12,7 @@ model on the Sarkisyan (2016) data set.
 
 class SequenceGP(object):
     
-    def __init__(self, load=False, X_train=None, y_train=None, 
+    def __init__(self, load=False, X_train=None, y_train=None, kernel=None,
                  length_scale=1, homo_noise=0.1, load_prefix="gfp_gp", 
                  k_beta=0.1, c=1, d=2):
         if load:
@@ -25,22 +25,7 @@ class SequenceGP(object):
             self.params_ = np.array([homo_noise, k_beta, c, d])
             self.K_ = None
             self.Kinv_ = None
-
-    def _kernel(self, Xi, Xj):
-        beta = self.params_[1]
-        c = self.params_[2]
-        d = self.params_[3]
-        print("Xi", Xi.shape)
-        print("Xj", Xj.shape)
-        print("BLOSUM shape", BLOSUM[[Xi, Xj]].shape)
-        kij = np.prod(BLOSUM[[Xi, Xj]]**beta)
-        kii = np.prod(BLOSUM[[Xi, Xi]]**beta)
-        kjj = np.prod(BLOSUM[[Xj, Xj]]**beta)
-        k = kij / (np.sqrt(kii*kjj))
-        k = np.exp(c*k)
-        print("kernel shape", k)
-#         k = (k+c)**d
-        return k
+            self._kernel = kernel
     
     def _fill_K(self, print_every=100):
         self.K_ = np.zeros((self.N_, self.N_))
