@@ -30,6 +30,8 @@ class SequenceGP(object):
         beta = self.params_[1]
         c = self.params_[2]
         d = self.params_[3]
+        print("Xi", Xi.shape)
+        print("Xj", Xj.shape)
         print("BLOSUM shape", BLOSUM[[Xi, Xj]].shape)
         kij = np.prod(BLOSUM[[Xi, Xj]]**beta)
         kii = np.prod(BLOSUM[[Xi, Xi]]**beta)
