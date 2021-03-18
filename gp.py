@@ -2,7 +2,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 import numpy as np
-from tqdm import tqdm
+import tqdm.notebook as tq
 from util import AA, AA_IDX, BLOSUM
 
 
@@ -32,7 +32,7 @@ class SequenceGP(object):
         self.K_ = np.zeros((self.N_, self.N_))
         total = self.N_ * (self.N_+1) / 2
         homo_noise = self.params_[0]
-        for i in tqdm(range(self.N_)):
+        for i in tq.tqdm(range(self.N_)):
             for j in range(i, self.N_):
                 kij = self._kernel(self.X_[i], self.X_[j])
                 if i == j:
@@ -55,7 +55,7 @@ class SequenceGP(object):
         Kstar = np.zeros((M, self.N_))
         total = M * self.N_
         m = 0
-        for i in range(M):
+        for i in tq.tqdm(range(M)):
             for j in range(self.N_):
                 kij = self._kernel(Xstar[i], self.X_[j])
                 Kstar[i, j] = kij
