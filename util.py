@@ -25,8 +25,7 @@ from scipy.spatial.distance import pdist, squareform
 plt.rcParams['figure.dpi'] = 300
 
 
-AA = ['a', 'r', 'n', 'd', 'c', 'q', 'e', 'g', 'h', 'i', 
-      'l', 'k', 'm', 'f', 'p', 's', 't', 'w', 'y', 'v', '-']
+AA = list("-ACDEFGHIKLMNPQRSTVWY")
 AA_IDX = {AA[i]:i for i in range(len(AA))}
 IDX_AA = {i:AA[i].upper() for i in range(len(AA))}
 
