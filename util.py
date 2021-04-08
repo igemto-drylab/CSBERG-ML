@@ -108,7 +108,7 @@ class LMDBDataset(Dataset):
 
 
 def one_hot_encode_aa(aa_str, pad=None):
-    aa_str = aa_str.lower()
+    aa_str = aa_str.upper()
     M = len(aa_str)
     aa_arr = np.zeros((M, 21), dtype=int)
     for i in range(M):
