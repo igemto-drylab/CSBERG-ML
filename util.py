@@ -25,7 +25,7 @@ from scipy.spatial.distance import pdist, squareform
 plt.rcParams['figure.dpi'] = 300
 
 
-AA = list("-ACDEFGHIKLMNPQRSTVWY")
+AA = list("ACDEFGHIKLMNPQRSTVWY")
 AA_IDX = {AA[i]:i for i in range(len(AA))}
 IDX_AA = {i:AA[i].upper() for i in range(len(AA))}
 
@@ -182,7 +182,7 @@ def read_fasta(fname):
     return X
 
 
-def save_fasta(X_p, fname, sampling='max'):
+def save_fasta(X_p, fname, sampling='max', labels=None):
     seqs = ""
     if torch.is_tensor(X_p):
         X_p = X_p.cpu().numpy()
@@ -190,7 +190,10 @@ def save_fasta(X_p, fname, sampling='max'):
 
     # nchar = 1
     for i in range(b):
-        seqs += ">{}\n".format(i)
+        if labels is None:
+            seqs += ">{}\n".format(i)
+        else:
+            seqs += ">{}\n".format(labels[i])
         for j in range(l):
             p = X_p[i, j]
             if sampling == 'max':   # only take the one with max probability
