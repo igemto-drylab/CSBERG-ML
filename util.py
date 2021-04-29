@@ -184,16 +184,18 @@ def read_fasta(fname):
 
 def save_fasta(X_p, fname, sampling='max', labels=None):
     seqs = ""
+    aligned_seqs = ""
     if torch.is_tensor(X_p):
         X_p = X_p.cpu().numpy()
     b, l, d = X_p.shape
 
-    # nchar = 1
     for i in range(b):
         if labels is None:
             seqs += ">{}\n".format(i)
+            aligned_seqs += ">{}\n".format(i)
         else:
             seqs += ">{}\n".format(labels[i])
+            aligned_seqs += ">{}\n".format(labels[i])
         for j in range(l):
             p = X_p[i, j]
             if sampling == 'max':   # only take the one with max probability
@@ -203,11 +205,13 @@ def save_fasta(X_p, fname, sampling='max', labels=None):
             aa = IDX_AA[k]
             if aa != '-':
                 seqs += IDX_AA[k]
-            # if nchar % 60 == 0:    # optional
-            #     seqs += "\n"
+            aligned_seqs += IDX_AA[k]
         seqs += "\n"
+        aligned_seqs += "\n"
     with open(fname, "w") as f:
         f.write(seqs)
+    with open(fname + ".aligned", "w") as f:
+        f.write(aligned_seqs)
 
             
 class VAE(nn.Module):
