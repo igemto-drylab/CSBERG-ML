@@ -62,8 +62,8 @@ class SequenceGP(object):
             for j in range(M):
                 kij = self._kernel(Xstar[i], Xstar[j])
                 Kstarstar[i, j] = kij
-        sigma_star = Kstarstar - np.linalg.multi_dot(Kstar, self.Kinv_, Kstar.T)
-        mu_star = np.linalg.multi_dot(Kstar, self.Kinv_, self.y_)
+        sigma_star = Kstarstar - np.linalg.multi_dot([Kstar, self.Kinv_, Kstar.T])
+        mu_star = np.linalg.multi_dot([Kstar, self.Kinv_, self.y_])
         
         return mu_star, sigma_star
         
