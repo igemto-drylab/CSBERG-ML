@@ -50,21 +50,22 @@ class SequenceGP(object):
         self._fill_K(print_every=print_every)
         self._invert_K()
         
-    def predict(self, Xstar, print_every=None, predict_variance=False):
+    def predict(self, Xstar):
         M = len(Xstar)
         Kstar = np.zeros((M, self.N_))
-        total = M * self.N_
-        m = 0
         for i in tq.tqdm(range(M)):
             for j in range(self.N_):
                 kij = self._kernel(Xstar[i], self.X_[j])
                 Kstar[i, j] = kij
-                m += 1
-                if print_every is not None:
-                    if m % print_every == 0:
-                        print("Number of Kstar elements filled: %i / %i" % (m, total))
-        mu_star = np.matmul(Kstar, np.matmul(self.Kinv_, self.y_))
-        return mu_star
+        Kstarstar = np.zeros((M, M))
+        for i in tq.tqdm(range(M)):
+            for j in range(M):
+                kij = self._kernel(Xstar[i], Xstar[j])
+                Kstarstar[i, j] = kij
+        sigma_star = Kstarstar - np.multi_dot(Kstar, self.Kinv_, Kstar.T)
+        mu_star = np.multi_dot(Kstar, self.Kinv_, self.y_)
+        
+        return mu_star, sigma_star
         
     def save(self, prefix = "gfp_gp"):
         np.save(prefix + "X.npy", self.X_)
