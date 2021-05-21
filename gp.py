@@ -53,12 +53,12 @@ class SequenceGP(object):
     def predict(self, Xstar):
         M = len(Xstar)
         Kstar = np.zeros((M, self.N_))
-        for i in tq.tqdm(range(M)):
+        for i in range(M):
             for j in range(self.N_):
                 kij = self._kernel(Xstar[i], self.X_[j])
                 Kstar[i, j] = kij
         Kstarstar = np.zeros((M, M))
-        for i in tq.tqdm(range(M)):
+        for i in range(M):
             for j in range(M):
                 kij = self._kernel(Xstar[i], Xstar[j])
                 Kstarstar[i, j] = kij
